@@ -1,4 +1,9 @@
-"""Converts a text file to lower case."""
+"""Converts a text file to lower case.
+
+Although it is perhaps overkill to use a temporary file for handling
+the 'Monkey Anagram' word dictionary, there may be other uses for
+this utility that require converting very large files.
+"""
 
 import shutil
 import sys
