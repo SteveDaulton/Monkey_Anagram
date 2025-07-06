@@ -144,7 +144,7 @@ def main_loop(anagram_dict: dict[str, list[str]]) -> None:
                 characters as the key.
     """
     print("Anagram Monkey.")
-    print("Find single word angrams from your letters.")
+    print("Find single word anagrams from your letters.")
     print()
     while True:
         letters: str = get_letters()
