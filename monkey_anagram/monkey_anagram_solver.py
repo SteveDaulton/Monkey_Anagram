@@ -81,7 +81,7 @@ def get_letters() -> str:
         if all(char in ascii_lowercase for char in user_input):
             return user_input
 
-        print('Type letters only.')
+        print('Must be ascii letters only.')
 
 
 def print_anagrams(original_letters: str, anagrams: list[str] | None) -> None:
