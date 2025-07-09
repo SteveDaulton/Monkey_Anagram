@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "monkey_anagram"
+version = "0.1"
+description = "A CLI anagram solver."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+  { name = "Steve Daultom" }
+]
+dependencies = [
+  "setuptools",
+  "appdirs"
+]
+requires-python = ">=3.9"
+
+[project.urls]
+Homepage = "https://github.com/SteveDaulton/Monkey_Anagram"
+
+[project.scripts]
+monkeygram = "monkey_anagram.monkey_anagram_solver:main"
+
+[tool.setuptools]
+packages = ["monkey_anagram"]
+
+[tool.setuptools.package-data]
+monkey_anagram = ["words.txt"]
