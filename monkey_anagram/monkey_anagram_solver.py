@@ -10,11 +10,11 @@ one word per line, and (re-)named as "words.txt".
 import json
 import sys
 from collections import defaultdict
+from importlib import resources
 from pathlib import Path
 from string import ascii_lowercase
 
-from appdirs import AppDirs
-from pkg_resources import resource_filename
+from platformdirs import AppDirs
 
 
 def import_word_list(wordlist_path: Path) -> list[str]:
@@ -161,26 +161,24 @@ def main_loop(anagram_dict: dict[str, list[str]]) -> None:
 
 def main() -> None:
     """Main set-up. Calls main_loop()"""
-    app_name = "monkey_anagram"
-    app_author = "Steve Daulton"
-    dirs = AppDirs(app_name, app_author)
-    # Determine absolute paths to resource files.
-    word_list_file = Path(resource_filename(app_name, 'words.txt'))
-    cache_path = Path(dirs.user_cache_dir)
-    # Ensure the target directory exists
-    cache_path.mkdir(parents=True, exist_ok=True)
-    cache_file = cache_path/'anagram_dictionary.json'
+    package_name = "monkey_anagram"
+    dirs = AppDirs(package_name)
 
-    anagram_dictionary: dict[str, list[str]]
+    with resources.as_file(resources.files(package_name).joinpath("words.txt")) as word_list_path:
+        cache_path = Path(dirs.user_cache_dir)
+        cache_path.mkdir(parents=True, exist_ok=True)
+        cache_file = cache_path / 'anagram_dictionary.json'
 
-    # Auto-update cache if necessary.
-    if is_cache_invalid(word_list_file, cache_file):
-        anagram_dictionary = build_dict_cache(word_list_file, cache_file)
-    else:
-        # load cache from disk.
-        with open(cache_file, 'rt', encoding='utf-8') as file_pointer:
-            print('Loading dictionary from disk.\n')
-            anagram_dictionary = json.load(file_pointer)
+        anagram_dictionary: dict[str, list[str]]
+
+        # Auto-update cache if necessary.
+        if is_cache_invalid(word_list_path, cache_file):
+            anagram_dictionary = build_dict_cache(word_list_path, cache_file)
+        else:
+            # load cache from disk.
+            with open(cache_file, 'rt', encoding='utf-8') as file_pointer:
+                print('Loading dictionary from disk.\n')
+                anagram_dictionary = json.load(file_pointer)
 
     # Start main loop.
     main_loop(anagram_dictionary)

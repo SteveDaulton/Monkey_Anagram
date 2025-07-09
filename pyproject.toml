@@ -13,7 +13,7 @@ authors = [
 ]
 dependencies = [
   "setuptools",
-  "appdirs"
+  "platformdirs"
 ]
 requires-python = ">=3.9"
 
